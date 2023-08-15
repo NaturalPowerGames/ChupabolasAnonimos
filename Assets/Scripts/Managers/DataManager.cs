@@ -8,7 +8,7 @@ public class DataManager : MonoBehaviour
 	[SerializeField]
 	private Player player;
 
-	private void Awake()
+	private void Start()
 	{
 		SetPlayer();
 	}
@@ -21,10 +21,20 @@ public class DataManager : MonoBehaviour
 
 	private void SetPlayer()
 	{
-		player = new Player();
-		player.coins = 0;
-		player.currentLocation = Vector3.zero;
-		player.ID = "mamaguevo";
+		Player loaded = SaverLoader.LoadSave();
+		if(loaded == null)
+		{
+			player = new Player();
+			player.coins = 0;
+			player.currentLocation = Vector3.zero;
+			player.ID = "mamaguevo";
+		}
+		else
+		{
+			player = loaded;
+			GameplayEvents.OnCoinsGained?.Invoke(player.coins);
+			GameplayEvents.OnPlayerTeleportRequested?.Invoke(player.currentLocation);
+		}	
 	}
 
 	private void OnCheckpointReached(Vector3 location)

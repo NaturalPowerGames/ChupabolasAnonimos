@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,8 +13,18 @@ public class MovementController : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    // Update is called once per frame
-    void Update()
+	private void OnEnable()
+	{
+        GameplayEvents.OnPlayerTeleportRequested += OnPlayerTeleportRequested;
+	}
+
+	private void OnPlayerTeleportRequested(Vector3 location)
+	{
+        transform.position = location;
+	}
+
+	// Update is called once per frame
+	void Update()
     {
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
