@@ -2,12 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class MovementController : MonoBehaviour
+using UnityEngine.EventSystems;
+public class MovementController : MonoBehaviour, IPointerEnterHandler
 {
     public float moveSpeed;
     public SpriteRenderer spriteRenderer;
-    // Start is called before the first frame update
+
     void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -23,8 +23,7 @@ public class MovementController : MonoBehaviour
         transform.position = location;
 	}
 
-	// Update is called once per frame
-	void Update()
+	private void Update()
     {
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
@@ -36,4 +35,9 @@ public class MovementController : MonoBehaviour
             spriteRenderer.color = Color.red;            
 		}
     }
+
+	public void OnPointerEnter(PointerEventData eventData)
+	{
+        Debug.Log("Pointer entered: " + name);
+	}
 }
